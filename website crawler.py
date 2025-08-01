@@ -9,6 +9,21 @@ import time
 st.set_page_config(page_title="Website Crawler", layout="centered")
 st.title("🌐 Website Crawler")
 
+# Use the secret instead of hardcoding
+PASSWORD = st.secrets["PASSWORD"]
+
+if "password_entered" not in st.session_state:
+    st.session_state.password_entered = False
+
+if not st.session_state.password_entered:
+    pwd = st.text_input("Enter Password", type="password")
+    if pwd == PASSWORD:
+        st.session_state.password_entered = True
+        st.rerun()  # Updated method instead of experimental_rerun
+    elif pwd:
+        st.error("Incorrect password")
+        st.stop()
+
 # Input section
 base_url = st.text_input("Enter Your Website URL", placeholder="https://example.com")
 remove_blogs = st.checkbox("Remove Blogs", value=False)
